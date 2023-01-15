@@ -1,4 +1,4 @@
-import config
+import gol
 import logs
 import os
 from netaddr.ip import IPAddress
@@ -23,7 +23,7 @@ def if_ip4or6(cfgstr):
 def init():
     os.system("sudo rm -rf ./ip.csv")
     os.system("iptables -F")
-    for sub_port in config.port:
+    for sub_port in gol.get_value('port'):
         os.system("iptables -I INPUT -p TCP --dport "+ str(sub_port) +" -j DROP")
         os.system("iptables -I INPUT -p UDP --dport "+ str(sub_port) +" -j DROP")
 
@@ -37,9 +37,9 @@ def add(ip):
     
     if ip in iplist:
         print(ip+"已经添加过白名单")
-        return ip+"已经添加过白名单"
+        return "已经添加过白名单"
     else:
-        for sub_port in config.port:
+        for sub_port in gol.get_value('port'):
             if if_ip4or6(ip) == 4:
                 os.system("iptables -I INPUT -s "+ip+" -p TCP --dport "+ str(sub_port) +" -j ACCEPT")
                 os.system("iptables -I INPUT -s "+ip+" -p UDP --dport "+ str(sub_port) +" -j ACCEPT")
@@ -48,4 +48,4 @@ def add(ip):
                 os.system("ip6tables -I INPUT -s "+ip+" -p UDP --dport "+ str(sub_port) +" -j ACCEPT")
         print(ip+"已添加到白名单")
         logs.add(ip)
-        return ip+"已添加到白名单"
+        return "已添加到白名单"

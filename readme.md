@@ -22,20 +22,9 @@
 默认安装在 `/usr/whitelist`
 
 
-
-### 文件介绍
-
-`web.py` 是 主要监听 的 py文件
-
-`autowhite.py` 是 IPTABLES 配置文件
-
-`config.py` 是 配置文件 ，可以手动修改认证端口，账号密码等
-
-`logs.py` 是 日志目录 ，记录认证IP，结束后会生成一个 `ip.csv` 的文件，可以批量查询IP.
-
 ### 其他补充
 
-屏蔽测速网站
+屏蔽常见的测速网站
 ```
 iptables -A OUTPUT -m string --string "fast.com" --algo bm -j DROP
 iptables -A OUTPUT -m string --string "speedtest.net" --algo bm -j DROP
@@ -46,6 +35,7 @@ iptables -A OUTPUT -m string --string "10000.gd.cn" --algo bm -j DROP
 iptables -A OUTPUT -m string --string "db.laomoe.com" --algo bm -j DROP
 iptables -A OUTPUT -m string --string "jiyou.cloud" --algo bm -j DROP
 iptables -A OUTPUT -m string --string "ovo.speedtestcustom.com" --algo bm -j DROP
+iptables -A OUTPUT -m string --string "speed.cloudflare.com" --algo bm -j DROP
 ```
 
 ### 日志查看
@@ -97,19 +87,6 @@ iptables -F
 ```
 
 
-
-## 补充&预告
-
-
-
-后期会修改前端认证页面(高情商:简约 低情商:简陋)
-
-以后会放一个redis版本，更为方便
-
-Aries会补充快捷命令，支持快捷命令修改端口，账号密码等.
-
-
-
 ## 参考项目
 
 UFWFORNODE: https://github.com/AriesEDGE/ufwfornode
@@ -122,19 +99,11 @@ IPTABLES: https://linux.die.net/man/8/iptables
 
 
 
-Telegram
+黑弩[https://github.com/heinu123]
 
-黑弩 
+Aries[https://github.com/AriesEDGE]
 
-@heinu1 https://t.me/heinu1
-
-Aries 
-
-@aries_init https://t.me/aries_init
-
-UniOreoX
-
-@UniOreoX https://t.me/unioreox
+UniOreoX[https://github.com/unioreox]
 
 
 
