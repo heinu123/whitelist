@@ -1,0 +1,11 @@
+[Unit]
+Description=proxy whitelist
+
+[Service]
+User=root
+WorkingDirectory=/usr/whitelist
+ExecStart=/usr/whitelist/main
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

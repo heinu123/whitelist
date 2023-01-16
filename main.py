@@ -1,8 +1,8 @@
 import gol
-import sys
 import os
-import click
+import json
 import time
+import config
 import autowhite
 import requests
 import socket
@@ -12,22 +12,26 @@ import base64
 
 global port, web_port, url_path, username, password, AUTH_KEY
 
-@click.command()
-@click.option('--port', prompt='你的节点端口 默认:', required=True, default="35960",help='节点端口.',type=(str))
-@click.option('--web_port', prompt='你的白名单网页认证端口 默认:', required=True, default="5563",help='白名单网页认证端口.',type=(str))
-@click.option('--url_path', prompt='你的白名单网页认证路径 默认:', required=True, default="/" ,help='白名单网页认证路径.',type=(str))
-@click.option('--username', prompt='你的白名单网页认证账号 默认:', required=True, default="123",help='白名单网页认证账号.',type=(str))
-@click.option('--password', prompt='你的白名单网页认证密码 默认:', required=True, default="123",help='白名单网页认证密码.',type=(str))
-def main(port, web_port, url_path, username, password):
+def main():
     gol._init()
-    gol.set_value('port',port)
-    gol.set_value('url_path',url_path)
+    if os.path.exists("config.json"):
+        with open('config.json', 'r') as f:
+            configs = json.load(f)
+        port = configs['port']
+        web_port = configs['web_port']
+        url_path = configs['url_path']
+        username = configs['username']
+        password = configs['password']
+        gol.set_value('port',port)
+        gol.set_value('url_path',url_path)
+    else:
+        config.retconfig()
+        port = gol.get_value('port')
+        web_port = gol.get_value('web_port')
+        url_path = gol.set_value('url_path')
+        username = gol.get_value('username')
+        password = gol.get_value('password')
     gol.set_value('AUTH_KEY',base64.b64encode('{}:{}'.format(username, password).encode()).decode())
-    port = port.split(",")
-    web_port = int(web_port)
-    if web_port in [80,443]:
-        print("认证端口禁止设置为80 443")
-        sys.exit(0)
     autowhite.init()
     address = ("", web_port)
     print("自动白名单服务器监听开启")
@@ -71,6 +75,8 @@ class BasicAuthHandler(http.server.SimpleHTTPRequestHandler):
         else:
             if os.path.exists(self.path):
                 with open(self.path,"r") as getfile:
+                    self.send_response(200)
+                    self.send_header("Content-type", "text/"+ os.path.splitext(self.path)[-1][1:] +"; charset=utf-8")
                     self.wfile.write(b""+getfile.encode("utf-8"))
             else:
                 self.send_response(404)

@@ -20,6 +20,9 @@ def if_ip4or6(cfgstr):
     else:
         return False
 
+
+
+
 def init():
     os.system("sudo rm -rf ./ip.csv")
     os.system("iptables -F")

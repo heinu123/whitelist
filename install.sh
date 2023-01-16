@@ -1,60 +1,79 @@
-#! /bin/bash
+#!/bin/bash
 
-#环境配置
-update(){
-    sudo apt update
-    sudo apt install python3-pip -y
-    sudo apt install git
-    sudo pip3 install requests
-    sudo pip3 install netaddr
-    clear
+red='\033[0;31m'
+green='\033[0;32m'
+
+
+function ERR() {
+    echo -e "${red}[ERR] $* ${plain}"
 }
 
-#获取主程序
-down(){
-    git clone https://github.com/heinu123/whitelist.git /usr/whitelist
-    clear
+function INFO() {
+    echo -e "${green}[INFO] $* ${plain}"
 }
 
-#Main
-echo "Hello World"
-sleep 1
+[[ $EUID -ne 0 ]] && ERR "错误:  必须使用root用户运行此脚本!\n" && exit 1
 
-update
-down
+if [[ -f /etc/redhat-release ]]; then
+    release="centos"
+elif cat /etc/issue | grep -Eqi "debian"; then
+    release="debian"
+elif cat /etc/issue | grep -Eqi "ubuntu"; then
+    release="ubuntu"
+elif cat /etc/issue | grep -Eqi "centos|red hat|redhat"; then
+    release="centos"
+elif cat /proc/version | grep -Eqi "debian"; then
+    release="debian"
+elif cat /proc/version | grep -Eqi "ubuntu"; then
+    release="ubuntu"
+elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
+    release="centos"
+else
+    ERR "未检测到系统版本，请联系脚本作者！\n" && exit 1
+fi
 
+os_version=""
+
+# os version
+if [[ -f /etc/os-release ]]; then
+    os_version=$(awk -F'[= ."]' '/VERSION_ID/{print $3}' /etc/os-release)
+fi
+if [[ -z "$os_version" && -f /etc/lsb-release ]]; then
+    os_version=$(awk -F'[= ."]+' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release)
+fi
+
+if [[ x"${release}" == x"centos" ]]; then
+    if [[ ${os_version} -le 6 ]]; then
+        ERR "请使用 CentOS 7 或更高版本的系统！\n" && exit 1
+    fi
+elif [[ x"${release}" == x"ubuntu" ]]; then
+    if [[ ${os_version} -lt 16 ]]; then
+        ERR "请使用 Ubuntu 16 或更高版本的系统！\n" && exit 1
+    fi
+elif [[ x"${release}" == x"debian" ]]; then
+    if [[ ${os_version} -lt 8 ]]; then
+        ERR "请使用 Debian 8 或更高版本的系统！\n" && exit 1
+    fi
+fi
+
+INFO "正在安装所需环境..."
+if [[ release == "centos" ]]; then
+    sudo yum install git python3-pip wget curl -y
+else
+    sudo apt install git python3-pip wget curl -y
+fi
+
+
+sudo pip install -r requirements.txt
+git clone https://github.com/heinu123/whitelist.git /usr/whitelist
 cd /usr/whitelist
+INFO "配置环境完成 如果报错请更新源\n正在编译安装..."
+pyinstaller -F mian.py && cd dist
+INFO "编译完成正在安装..."
+mv main /usr/whitelist/main
+cd /usr/whitelist
+mv whitelist.service /etc/systemd/system/whitelist.service
+sudo systemctl daemon-reload
+sudo systemctl enable python-project.service
+sudo systemctl start whitelist.service
 
-echo "请输入节点端口(多个端口请用 , 分隔)"
-read port
-
-echo "请输入web认证端口"
-read web_port
-
-echo "请输入认证路径(例如/aries)"
-read path
-
-echo "请输入认证用户名"
-read username
-
-echo "请输入认证密码"
-read password
-
-echo "获取信息完成,已经写入脚本"
-
-cat <<text >./config.py
-port = [ ${port} ]
-web_port = ${web_port}
-URL_PATH = "${path}"
-USERNAME = '${username}'
-PASSWORD = '${password}'
-text
-
-echo "配置环境完成,挂起后台执行"
-nohup python3 -u web.py > iplog.out 2>&1 &
-clear 
-
-echo "认证信息:"
-echo "`curl -s ifconfig.me/ip`:${web_port}${path}"
-echo "用户名:${username}"
-echo "密码:${password}"
