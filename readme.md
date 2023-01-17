@@ -12,7 +12,7 @@
 使用root权限 (sudo -i) 执行
 
 ```
- bash <(curl -Ls https://ghproxy.com/github.com/heinu123/whitelist/blob/main/install.sh)
+ bash <(curl -Ls https://raw.githubusercontent.com/heinu123/whitelist/master/install.sh)
 ```
 
 
