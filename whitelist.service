@@ -4,7 +4,7 @@ Description=proxy whitelist
 [Service]
 User=root
 WorkingDirectory=/usr/whitelist
-ExecStart=/usr/whitelist/main
+ExecStart=/usr/bin/python3 /usr/whitelist/main.py
 Restart=always
 
 [Install]

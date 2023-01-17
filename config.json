@@ -1,0 +1,11 @@
+{
+    "port": [
+        "35960"
+    ],
+    "web_port": "5563",
+    "url_path": "/",
+    "username": "123",
+    "password": "123",
+    "anti_bt": "true",
+    "anti_abuse": "true"
+}

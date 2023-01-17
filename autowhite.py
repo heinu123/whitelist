@@ -20,8 +20,36 @@ def if_ip4or6(cfgstr):
     else:
         return False
 
+def anti_abuse():
+    os.system('iptables -A OUTPUT -m string --string "fast.com" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speedtest.net" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speedtest.com" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speedtest.cn" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "test.ustc.edu.cn" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "10000.gd.cn" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "db.laomoe.com" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "jiyou.cloud" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "ovo.speedtestcustom.com" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speed.cloudflare.com" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speedtest" --algo bm -j DROP')
 
-
+def anti_bt():
+   os.system('iptables -A OUTPUT -m string --string "torrent" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string ".torrent" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "peer_id=" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "announce" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "info_hash" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "get_peers" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "find_node" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "BitTorrent" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "announce_peer" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "BitTorrent protocol" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "announce.php?passkey=" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "magnet:" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "xunlei" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "sandai" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "Thunder" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "XLLiveUD" --algo bm -j DROP')
 
 def init():
     os.system("sudo rm -rf ./ip.csv")

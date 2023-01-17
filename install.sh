@@ -58,22 +58,21 @@ fi
 
 INFO "正在安装所需环境..."
 if [[ release == "centos" ]]; then
-    sudo yum install git python3-pip wget curl -y
+    sudo yum install git python3-pip wget curl screen -y
 else
-    sudo apt install git python3-pip wget curl -y
+    sudo apt install git python3-pip wget curl screen -y
 fi
 
 
 sudo pip install -r requirements.txt
 git clone https://github.com/heinu123/whitelist.git /usr/whitelist
 cd /usr/whitelist
-INFO "配置环境完成 如果报错请更新源\n正在编译安装..."
-pyinstaller -F mian.py && cd dist
-INFO "编译完成正在安装..."
-mv main /usr/whitelist/main
-cd /usr/whitelist
-mv whitelist.service /etc/systemd/system/whitelist.service
+INFO "配置环境完成 如果报错请更新源"
+INFO "正在安装..."
+mv /usr/whitelist/whitelist.service /etc/systemd/system/whitelist.service
 sudo systemctl daemon-reload
 sudo systemctl enable python-project.service
-sudo systemctl start whitelist.service
+INFO "第一次启动需要输入配置\n配置输入完成后使用ctrl+a+d退出screen\n之后可以使用 systemctl start whitelist.service启动"
+screen -S whitelist -d -m /usr/bin/python3 /usr/whitelist/main.py
+
 

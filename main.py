@@ -22,6 +22,8 @@ def main():
         url_path = configs['url_path']
         username = configs['username']
         password = configs['password']
+        anti_bt = configs['anti_bt']
+        anti_abuse = configs['anti_abuse']
         gol.set_value('port',port)
         gol.set_value('url_path',url_path)
     else:
@@ -31,8 +33,17 @@ def main():
         url_path = gol.set_value('url_path')
         username = gol.get_value('username')
         password = gol.get_value('password')
+        anti_bt = gol.get_value('anti_bt')
+        anti_abuse = gol.get_value('anti_abuse')
     gol.set_value('AUTH_KEY',base64.b64encode('{}:{}'.format(username, password).encode()).decode())
     autowhite.init()
+    if anti_abuse == "true":
+        autowhite.anti_abuse()
+        print("已屏蔽测速滥用")
+    if anti_bt == "true":
+        autowhite.anti_bt()
+        print("已屏蔽bt下载")
+    web_port = int(web_port)
     address = ("", web_port)
     print("自动白名单服务器监听开启")
     for sub_port in port:
@@ -73,10 +84,22 @@ class BasicAuthHandler(http.server.SimpleHTTPRequestHandler):
             else:
                 self.do_AUTHHEAD()
         else:
-            if os.path.exists(self.path):
-                with open(self.path,"r") as getfile:
+            if os.path.isfile(os.path.exists("."+self.path)):
+                with open("."+self.path,"r") as getfile:
+                    if os.path.splitext(self.path)[-1][1:] == "html":
+                        header = "text/html"
+                    elif os.path.splitext(self.path)[-1][1:] == "gif":
+                        header = "image/gif"
+                    elif os.path.splitext(self.path)[-1][1:] == "jpg":
+                        header = "image/jpeg"
+                    elif os.path.splitext(self.path)[-1][1:] == "png":
+                        header = "image/png"
+                    elif os.path.splitext(self.path)[-1][1:] == "mp4":
+                        header = "video/mpeg4"
+                    elif os.path.splitext(self.path)[-1][1:] == "ico":
+                        header = "image/vnd.microsoft.icon"
                     self.send_response(200)
-                    self.send_header("Content-type", "text/"+ os.path.splitext(self.path)[-1][1:] +"; charset=utf-8")
+                    self.send_header("Content-type", header +"; charset=utf-8")
                     self.wfile.write(b""+getfile.encode("utf-8"))
             else:
                 self.send_response(404)
