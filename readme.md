@@ -27,7 +27,7 @@ screen -S whitelist -d -m /usr/bin/python3 /usr/whitelist/main.py
 
 完成配置后可以使用systemctl启动(beta)
 ```
-systemctl start python-project.service
+systemctl start whitelist.service
 ```
 
 ## 简介
