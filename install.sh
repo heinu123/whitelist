@@ -71,7 +71,7 @@ INFO "配置环境完成 如果报错请更新源"
 INFO "正在安装..."
 mv /usr/whitelist/whitelist.service /etc/systemd/system/whitelist.service
 sudo systemctl daemon-reload
-sudo systemctl enable python-project.service
+sudo systemctl enable whitelist.service
 INFO "第一次启动需要输入配置\n配置输入完成后使用ctrl+a+d退出screen\n之后可以使用 systemctl start whitelist.service启动"
 screen -S whitelist -d -m /usr/bin/python3 /usr/whitelist/main.py
 
