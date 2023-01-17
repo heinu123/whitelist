@@ -46,7 +46,7 @@ kill -9 进程号
 
 ### Step2
 
-清除iptables进程
+清空iptables
 
 ```
 iptables -F
