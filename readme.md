@@ -7,7 +7,7 @@
 
 使用Python自动监视网络连接，并使用iptables作为防火墙控制放行端口
 
-## 食用方法
+## 一键脚本(beta)
 
 使用root权限 (sudo -i) 执行
 
@@ -15,7 +15,20 @@
  bash <(curl -Ls https://raw.githubusercontent.com/heinu123/whitelist/master/install.sh)
 ```
 
+## 手动安装
+```
+apt install git python3-pip wget curl screen -y
+git clone https://github.com/heinu123/whitelist.git /usr/whitelist && cd /usr/whitelist
+mv /usr/whitelist/whitelist.service /etc/systemd/system/whitelist.service
+sudo systemctl daemon-reload
+screen -S whitelist -d -m /usr/bin/python3 /usr/whitelist/main.py
+```
+使用ctrl+a+d退出screen终端
 
+完成配置后可以使用systemctl启动(beta)
+```
+systemctl start python-project.service
+```
 
 ## 简介
 
