@@ -30,8 +30,6 @@
 
 关闭python监听进程
 
-
-
 请使用
 
 ```shell
@@ -58,8 +56,6 @@ iptables -F
 ## 参考项目
 
 UFWFORNODE: https://github.com/AriesEDGE/ufwfornode
-
-IPTABLES: https://linux.die.net/man/8/iptables
 
 ## 开发&感谢
 
