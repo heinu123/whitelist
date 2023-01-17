@@ -22,39 +22,7 @@
 默认安装在 `/usr/whitelist`
 
 
-### 其他补充
-
-屏蔽常见的测速网站
-```
-iptables -A OUTPUT -m string --string "fast.com" --algo bm -j DROP
-iptables -A OUTPUT -m string --string "speedtest.net" --algo bm -j DROP
-iptables -A OUTPUT -m string --string "speedtest.com" --algo bm -j DROP
-iptables -A OUTPUT -m string --string "speedtest.cn" --algo bm -j DROP
-iptables -A OUTPUT -m string --string "test.ustc.edu.cn" --algo bm -j DROP
-iptables -A OUTPUT -m string --string "10000.gd.cn" --algo bm -j DROP
-iptables -A OUTPUT -m string --string "db.laomoe.com" --algo bm -j DROP
-iptables -A OUTPUT -m string --string "jiyou.cloud" --algo bm -j DROP
-iptables -A OUTPUT -m string --string "ovo.speedtestcustom.com" --algo bm -j DROP
-iptables -A OUTPUT -m string --string "speed.cloudflare.com" --algo bm -j DROP
-```
-
-### 日志查看
-
-nohup 可以直接查看日志（Python）
-
-
-
-```shell
-cat /usr/whitelist/iplog.out
-```
-
-
-
 ## 如何关闭
-
-Python后台监听采用nohup
-
-
 
 如果要关闭监听
 
@@ -99,11 +67,11 @@ IPTABLES: https://linux.die.net/man/8/iptables
 
 
 
-黑弩[https://github.com/heinu123]
+[黑弩](https://github.com/heinu123)
 
-Aries[https://github.com/AriesEDGE]
+[Aries](https://github.com/AriesEDGE)
 
-UniOreoX[https://github.com/unioreox]
+[UniOreoX](https://github.com/unioreox)
 
 
 
