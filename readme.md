@@ -11,23 +11,25 @@
 
 使用root权限 (sudo -i) 执行
 
+此版本为nohup版(systemctl版正在研究)
+
 ```
- bash <(curl -Ls https://raw.githubusercontent.com/heinu123/whitelist/master/install.sh)
+ bash <(curl -Ls https://raw.githubusercontent.com/heinu123/whitelist/master/installs.sh)
 ```
 
 ## 手动安装
-```
-apt install git python3-pip wget curl screen -y
-git clone https://github.com/heinu123/whitelist.git /usr/whitelist && cd /usr/whitelist
-mv /usr/whitelist/whitelist.service /etc/systemd/system/whitelist.service
-sudo systemctl daemon-reload
-screen -S whitelist -d -m /usr/bin/python3 /usr/whitelist/main.py
-```
-使用ctrl+a+d退出screen终端
 
-完成配置后可以使用systemctl启动(beta)
+Step1.初始化
 ```
-systemctl start whitelist.service
+apt install git python3-pip wget curl -y
+git clone https://github.com/heinu123/whitelist.git /usr/whitelist && cd /usr/whitelist
+python3 main.py
+```
+此步完成后使用 Ctrl+C 打断
+
+Step2.后台运行(nohup版)
+```
+nohup python3 -u main.py > log.out 2>&1 &
 ```
 
 ## 简介
