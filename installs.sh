@@ -3,7 +3,8 @@ update(){
     echo "Checking Update .."
     sleep 1
     sudo apt update
-    sudo apt install python3 -y
+    sudo apt upgrade
+    sudo apt install git python3-pip wget curl -y
 }
 
 gits(){
