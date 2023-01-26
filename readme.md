@@ -80,11 +80,11 @@ UFWFORNODE: https://github.com/AriesEDGE/ufwfornode
 
 
 
-[黑弩](https://github.com/heinu123) [telegram频道](https://t.me/heinuhome)
+[黑弩](https://github.com/heinu123)  →[telegram频道](https://t.me/heinuhome)
 
-[Aries](https://github.com/AriesEDGE) [telegram频道](https://t.me/aries_init)
+[Aries](https://github.com/AriesEDGE)  →[telegram频道](https://t.me/aries_init)
 
-[UniOreoX](https://github.com/unioreox)
+[UniOreoX](https://github.com/unioreox)  →[telegram频道](https://t.me/unichannelx)
 
 
 
