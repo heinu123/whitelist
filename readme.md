@@ -70,9 +70,9 @@ iptables -F
 1.预计会增加systemctl版本一键安装
 2.预计会增加自动化修改端口
 
-## 参考项目
+## 其他项目(重构版)
 
-UFWFORNODE: https://github.com/AriesEDGE/ufwfornode
+[golang重构](https://github.com/unioreox/SimpleFirewall)
 
 ## 开发&感谢
 
