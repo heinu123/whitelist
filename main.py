@@ -9,8 +9,9 @@ import socket
 import http.server
 import socketserver
 import base64
+import requests
 
-global port, web_port, url_path, username, password, AUTH_KEY
+global port, web_port, url_path, username, password, AUTH_KEY,auto,url
 
 def main():
     gol._init()
@@ -24,8 +25,11 @@ def main():
         password = configs['password']
         anti_bt = configs['anti_bt']
         anti_abuse = configs['anti_abuse']
+        auto = configs['auto']
+        url = configs['url']
         gol.set_value('port',port)
         gol.set_value('url_path',url_path)
+        gol.set_value('auto',auto)
     else:
         config.retconfig()
         port = gol.get_value('port')
@@ -35,6 +39,8 @@ def main():
         password = gol.get_value('password')
         anti_bt = gol.get_value('anti_bt')
         anti_abuse = gol.get_value('anti_abuse')
+        auto = gol.get_value('auto')
+        url = gol.get_value('url')
     gol.set_value('AUTH_KEY',base64.b64encode('{}:{}'.format(username, password).encode()).decode())
     autowhite.init()
     if anti_abuse == "true":
@@ -43,12 +49,18 @@ def main():
     if anti_bt == "true":
         autowhite.anti_bt()
         print("已屏蔽bt下载")
+    if auto == "false":
+         gol.set_value('auto',"")
+    else:
+        autos = '<script type="text/javascript">	\n    var t=3;\n    setInterval("refer()",1000);\n    function refer(){\n    if(t==0){\n    location="{url}";\n    }\n    document.getElementById("show").innerHTML="将在"+t+"秒后跳转到节点所属频道...";\n    t--;\n    }\n    </script>'.replace("{url}", url)
+        gol.set_value('auto',str(autos))
     web_port = int(web_port)
     address = ("", web_port)
     print("自动白名单服务器监听开启")
     for sub_port in port:
         print("节点监听端口:"+ sub_port)
-    print("公网白名单网页认证链接:http://"+ requests.get('http://ifconfig.me/ip', timeout=1).text.strip() +":"+str(web_port)+url_path)
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36"}
+    print("公网白名单网页认证链接:http://"+ requests.get('http://ifconfig.me/ip', timeout=1 , headers = headers).text.strip() +":"+str(web_port)+url_path)
     print("内网白名单网页认证链接:http://"+ socket.gethostbyname(socket.gethostname()) +":"+str(web_port)+url_path)
     print("白名单网页认证账号:"+username)
     print("白名单网页认证密码:"+password)
@@ -70,6 +82,12 @@ class BasicAuthHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Content-type", "text/html; charset=utf-8")
         self.end_headers()
     
+    def do_POST(self):
+        self.do_HEAD()
+        html = open("./html/index.html","r",encoding='utf-8')
+        html_body = html.read()
+        self.wfile.write(b""+html_body.replace("{add}", autowhite.add(self.client_address[0])).replace("{ip}", self.client_address[0]).replace("{auto}", gol.get_value('auto')).encode("utf-8"))
+                
 
     def do_GET(self):
         if self.path == gol.get_value('url_path'):
@@ -77,9 +95,9 @@ class BasicAuthHandler(http.server.SimpleHTTPRequestHandler):
                 self.do_AUTHHEAD()
             elif self.headers.get("Authorization") == "Basic " + gol.get_value('AUTH_KEY'):
                 self.do_HEAD()
-                html = open("index.html","r",encoding='utf-8')
+                html = open("./html/recaptcha.html","r",encoding='utf-8')
                 html_body = html.read()
-                self.wfile.write(b""+html_body.replace("{add}", autowhite.add(self.client_address[0])).replace("{ip}", self.client_address[0]).encode("utf-8"))
+                self.wfile.write(b""+html_body.encode("utf-8"))
                 
             else:
                 self.do_AUTHHEAD()

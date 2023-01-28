@@ -32,6 +32,10 @@ def anti_abuse():
     os.system('iptables -A OUTPUT -m string --string "ovo.speedtestcustom.com" --algo bm -j DROP')
     os.system('iptables -A OUTPUT -m string --string "speed.cloudflare.com" --algo bm -j DROP')
     os.system('iptables -A OUTPUT -m string --string "speedtest" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speedtest" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string ".speed" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speed." --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string ".speed." --algo bm -j DROP')
 
 def anti_bt():
    os.system('iptables -A OUTPUT -m string --string "torrent" --algo bm -j DROP')
@@ -50,6 +54,14 @@ def anti_bt():
    os.system('iptables -A OUTPUT -m string --string "sandai" --algo bm -j DROP')
    os.system('iptables -A OUTPUT -m string --string "Thunder" --algo bm -j DROP')
    os.system('iptables -A OUTPUT -m string --string "XLLiveUD" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "ethermine.com" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "antpool.one" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "antpool.com" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "pool.bar" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "get_peers" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "announce_peer" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "find_node" --algo bm -j DROP')
+   os.system('iptables -A OUTPUT -m string --string "seed_hash" --algo bm -j DROP')
 
 def init():
     os.system("sudo rm -rf ./ip.csv")
