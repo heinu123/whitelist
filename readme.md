@@ -10,7 +10,7 @@
 
 使用root权限 (sudo -i) 执行
 
-此版本为nohup版(systemctl版正在研究)
+此版本为nohup版 (systemctl版正在研究)
 
 ```
  bash <(curl -Ls https://raw.githubusercontent.com/heinu123/whitelist/master/install.sh)
