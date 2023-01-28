@@ -13,7 +13,7 @@
 此版本为nohup版(systemctl版正在研究)
 
 ```
- bash <(curl -Ls https://raw.githubusercontent.com/heinu123/whitelist/master/installs.sh)
+ bash <(curl -Ls https://raw.githubusercontent.com/heinu123/whitelist/master/install.sh)
 ```
 
 ## 手动安装
