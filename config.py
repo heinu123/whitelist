@@ -4,7 +4,6 @@ import sys
 import click
 from main import main
 
-
 @click.command()
 @click.option('--port', prompt='你的节点端口(多个端口请使用,分割) 默认:', required=True, default="35960", help='节点端口', type=(str))
 @click.option('--web_port', prompt='你的白名单网页认证端口 默认:', required=True, default="5563", help='白名单网页认证端口', type=(str))
