@@ -1,8 +1,13 @@
 [Unit]
 Description=proxy whitelist
+After=network.target
+Wants=network.target
+Documentation=https://github.com/heinu123/whitelist
 
 [Service]
-User=root
+Type=simple
+Restart=always
+RestartSec=3
 WorkingDirectory=/usr/whitelist
 ExecStart=/usr/bin/python3 /usr/whitelist/main.py
 Restart=always
