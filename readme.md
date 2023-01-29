@@ -2,6 +2,7 @@
 
 ## 兼容性
 兼容:shadowsocks vmess socks http mtproxy vless trojan等常见协议
+
 不支持套了cloudflare CDN的节点 仅支持直连
 
 ## 效果
