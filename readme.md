@@ -1,4 +1,7 @@
-# 节点加白
+# 节点白名单认证
+
+## 兼容性
+兼容:shadowsocks vmess socks http mtproxy vless trojan
 
 ## 效果
 可以降低被主动探测/BOT扫描的概率 同时降低被墙概率
