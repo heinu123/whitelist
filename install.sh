@@ -60,7 +60,7 @@ install(){
 
 uninstall(){
     read -p "确定要卸载代理白名单认证系统吗？[y/n]:" confirm
-    if [[ $confirm ~= Y|y ]]; then
+    if [[ $confirm =~ Y|y ]]; then
         systemctl stop whitelist
         systemctl disable whitelist
         iptables -F
