@@ -2,6 +2,7 @@ import gol
 import os
 import json
 import time
+import logs
 import config
 import autowhite
 import requests
@@ -11,7 +12,7 @@ import socketserver
 import base64
 import requests
 
-global port, web_port, url_path, username, password, AUTH_KEY, auto, url
+global port, web_port, url_path, username, password, AUTH_KEY, auto, url,recaptcha_key,recaptcha_web_key
 
 
 def main():
@@ -31,6 +32,10 @@ def main():
         gol.set_value('port', port)
         gol.set_value('url_path', url_path)
         gol.set_value('auto', auto)
+        gol.set_value('recaptcha', configs['recaptcha'])
+        gol.set_value('recaptcha_web_key', configs['recaptcha_web_key'])
+        gol.set_value('recaptcha_key', configs['recaptcha_key'])
+
     else:
         config.retconfig()
         port = gol.get_value('port')
@@ -54,8 +59,7 @@ def main():
     if auto == "false":
         gol.set_value('auto', "")
     else:
-        autos = '<script type="text/javascript">	\n    var t=3;\n    setInterval("refer()",1000);\n    function refer(){\n    if(t==0){\n    location="{url}";\n    }\n    document.getElementById("show").innerHTML="将在"+t+"秒后跳转到节点所属频道...";\n    t--;\n    }\n    </script>'.replace(
-            "{url}", url)
+        autos = '<script type="text/javascript">	\n    var t=3;\n    setInterval("refer()",1000);\n    function refer(){\n    if(t==0){\n    location="{url}";\n    }\n    document.getElementById("show").innerHTML="将在"+t+"秒后跳转到节点所属频道...";\n    t--;\n    }\n    </script>'.replace("{url}", url)
         gol.set_value('auto', str(autos))
     web_port = int(web_port)
     address = ("", web_port)
@@ -70,6 +74,8 @@ def main():
           socket.gethostbyname(socket.gethostname()) + ":"+str(web_port)+url_path)
     print("白名单网页认证账号:"+username)
     print("白名单网页认证密码:"+password)
+    print("通过验证的ip存储在当前目录的adoptip.csv文件内")
+    print("未通过验证的ip存储在当前目录的failedip.csv文件内(开启谷歌recaptcha时有效)")
     with ThreadingHTTPServer(address, BasicAuthHandler) as httpd:
         httpd.serve_forever()
 
@@ -87,11 +93,35 @@ class BasicAuthHandler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self):
-        self.do_HEAD()
-        html = open("./html/index.html", "r", encoding='utf-8')
-        html_body = html.read()
-        self.wfile.write(b""+html_body.replace("{add}", autowhite.add(self.client_address[0])).replace(
-            "{ip}", self.client_address[0]).replace("{auto}", gol.get_value('auto')).encode("utf-8"))
+        if gol.get_value('recaptcha') == "true":
+            content_length = int(self.headers.get("Content-Length"))
+            post_data = self.rfile.read(content_length)
+            post_data_str = post_data.decode()
+            response = post_data_str.replace("g-recaptcha-response=","")
+            data = {
+                'secret': gol.get_value('recaptcha_key'),
+                'response': response
+            }
+            r = requests.post('https://www.recaptcha.net/recaptcha/api/siteverify', data=data)
+            result = r.json()
+            self.do_HEAD()
+            if result['success'] == True:
+                html = open("./html/index.html", "r", encoding='utf-8')
+                html_body = html.read()
+                self.wfile.write(b""+html_body.replace("{add}", autowhite.add(self.client_address[0])).replace("{ip}", self.client_address[0]).replace("{auto}", gol.get_value('auto')).encode("utf-8"))
+            else:
+                logs.failedadd(self.client_address[0])
+                html = open("./html/notrecaptcha.html", "r", encoding='utf-8')
+                html_body = html.read()
+                self.wfile.write(b""+html_body.encode("utf-8"))
+        else:
+                self.do_HEAD()
+                html = open("./html/index.html", "r", encoding='utf-8')
+                html_body = html.read()
+                self.wfile.write(b""+html_body.replace("{add}", autowhite.add(self.client_address[0])).replace("{ip}", self.client_address[0]).replace("{auto}", gol.get_value('auto')).encode("utf-8"))
+
+        
+
 
     def do_GET(self):
         if self.path == gol.get_value('url_path'):
@@ -101,7 +131,10 @@ class BasicAuthHandler(http.server.SimpleHTTPRequestHandler):
                 self.do_HEAD()
                 html = open("./html/recaptcha.html", "r", encoding='utf-8')
                 html_body = html.read()
-                self.wfile.write(b""+html_body.encode("utf-8"))
+                if gol.get_value('recaptcha') == "true":
+                    self.wfile.write(b""+html_body.replace("{captcha}","<div class=\"g-recaptcha\" data-sitekey=\""+gol.get_value('recaptcha_web_key')+"\"></div>").encode("utf-8"))
+                else:
+                    self.wfile.write(b""+html_body.replace("{captcha}","").encode("utf-8"))
 
             else:
                 self.do_AUTHHEAD()

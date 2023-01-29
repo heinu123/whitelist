@@ -60,7 +60,7 @@ install(){
 
 uninstall(){
     read -p "确定要卸载代理白名单认证系统吗？[y/n]:" confirm
-    if [[ $confirm ~= Y|y ]]; then
+    if [[ $confirm =~ Y|y ]]; then
         systemctl stop whitelist
         systemctl disable whitelist
         iptables -F
@@ -93,8 +93,8 @@ restart(){
 menu(){
     echo "#############################################################"
     echo -e "#                ${RED}代理白名单认证系统  一键脚本${PLAIN}               #"
-    echo -e "# ${GREEN}作者${PLAIN}: heinu123                                           #"
-    echo -e "# ${GREEN}GitHub 项目${PLAIN}: https://github.com/heinu123                 #"
+    echo -e "# ${GREEN}作者${PLAIN}: heinu123                                            #"
+    echo -e "# ${GREEN}GitHub 项目${PLAIN}: https://github.com/heinu123                  #"
     echo "#############################################################"
     echo ""
     echo -e " ${GREEN}1.${PLAIN} 安装 代理白名单认证系统"

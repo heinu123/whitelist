@@ -5,12 +5,15 @@
 
 支持同时监听多个端口 支持ipv4/ipv6网络
 
+支持屏蔽bt下载 常用测速网站 挖矿等
+
+支持绑定url(自动跳转) 可以用来实现自动跳转到节点所属频道
+
+支持谷歌recaptcha人机验证
 
 ## 一键脚本(beta)
 
 使用root权限 (sudo -i) 执行
-
-此版本为nohup版(systemctl版正在研究)
 
 ```
  bash <(curl -Ls https://raw.githubusercontent.com/heinu123/whitelist/master/install.sh)

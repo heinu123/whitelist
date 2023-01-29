@@ -84,7 +84,8 @@ def anti_bt():
 
 
 def init():
-    os.system("sudo rm -rf ./ip.csv")
+    os.system("sudo rm -rf ./adoptip.csv")
+    os.system("sudo rm -rf ./failedip.csv")
     os.system("iptables -F")
     for sub_port in gol.get_value('port'):
         os.system("iptables -I INPUT -p TCP --dport " +
@@ -94,8 +95,8 @@ def init():
 
 
 def add(ip):
-    if os.path.isfile("./ip.csv"):
-        r = open("./ip.csv", mode='r')
+    if os.path.isfile("./adoptip.csv"):
+        r = open("./adoptip.csv", mode='r')
         iplist = r.read()
         r.close()
     else:
@@ -117,5 +118,5 @@ def add(ip):
                 os.system("ip6tables -I INPUT -s "+ip +
                           " -p UDP --dport " + str(sub_port) + " -j ACCEPT")
         print(ip+"已添加到白名单")
-        logs.add(ip)
+        logs.adoptadd(ip)
         return "已添加到白名单"

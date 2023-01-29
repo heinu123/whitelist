@@ -14,16 +14,29 @@ from main import main
 @click.option('--anti_bt', prompt='是否屏蔽bt下载和挖矿 默认:', default="true", help='屏蔽bt下载', type=(str))
 @click.option('--auto', prompt='是否开启自动跳转url链接 (防止转发不署名的sm玩意) 默认:', default="false", help='是否开启自动跳转url链接', type=(str))
 @click.option('--url', prompt='(不开启自动跳转为空即可)设置认证成功后自动跳转到指定网页的链接 如: https://www.baidu.com', default="", help='设置认证成功后自动跳转到指定网页的链接 如: https://www.baidu.com', type=(str))
-def retconfig(port, web_port, url_path, username, password, anti_abuse, anti_bt, auto, url):
+@click.option('--recaptcha', prompt='是否开启谷歌recaptcha人机验证', default="false", help='是否开启谷歌recaptcha人机验证', type=(str))
+@click.option('--recaptcha_web_key', prompt='(不开启自动跳转为空即可)谷歌recaptcha的网站密钥(客户端)', default="false", help='谷歌recaptcha的网站密钥(客户端)', type=(str))
+@click.option('--recaptcha_key', prompt='(不开启自动跳转为空即可)谷歌recaptcha的网站密钥(服务端)', default="", help='谷歌recaptcha的网站密钥(服务端)', type=(str))
+def retconfig(port, web_port, url_path, username, password, anti_abuse, anti_bt, auto, url,recaptcha,recaptcha_web_key,recaptcha_key):
     port = port.split(",")
     if web_port in [80, 443]:
         print("认证端口禁止设置为80 443")
         sys.exit(0)
     if auto == "false":
-        url = "false"
+        url = ""
     else:
         if url == "":
             print("url链接不可为空")
+            sys.exit(0)
+    if recaptcha == "false":
+        recaptcha_web_key = ""
+        recaptcha_key = ""
+    else:
+        if recaptcha_web_key == "":
+            print("客户端密钥不可为空")
+            sys.exit(0)
+        if recaptcha_key == "":
+            print("服务端密钥不可为空")
             sys.exit(0)
     gol.set_value('port', port)
     gol.set_value('web_port', web_port)
@@ -34,6 +47,9 @@ def retconfig(port, web_port, url_path, username, password, anti_abuse, anti_bt,
     gol.set_value('anti_abuse', anti_abuse)
     gol.set_value('auto', auto)
     gol.set_value('url', url)
+    gol.set_value('recaptcha', recaptcha)
+    gol.set_value('recaptcha_web_key', recaptcha_web_key)
+    gol.set_value('recaptcha_key', recaptcha_key)
     data = {
         'port': port,
         'web_port': web_port,
@@ -43,7 +59,10 @@ def retconfig(port, web_port, url_path, username, password, anti_abuse, anti_bt,
         'anti_bt': anti_bt,
         'anti_abuse': anti_abuse,
         'auto': auto,
-        'url': url
+        'url': url,
+        'recaptcha': recaptcha,
+        'recaptcha_web_key': recaptcha_web_key,
+        'recaptcha_key': recaptcha_key
     }
     with open('config.json', 'w') as f:
         json.dump(data, f, indent=4)
