@@ -55,15 +55,7 @@ nohup python3 -u main.py > log.out 2>&1 &
 请使用
 
 ```shell
-ps -ef|grep python
-```
-
-查看进程号
-
-杀掉进程python3
-
-```shell
-kill -9 进程号
+systemctl stop whitelist.service
 ```
 
 ### Step2
