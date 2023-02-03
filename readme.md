@@ -55,7 +55,7 @@ nohup python3 -u main.py > log.out 2>&1 &
 请使用
 
 ```shell
-systemctl stop whitelist.service
+systemctl stop whitelist
 ```
 
 ### Step2
