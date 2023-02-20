@@ -90,29 +90,45 @@ restart(){
     green "代理白名单认证系统已重启成功！"
 }
 
+updates() {
+    git clone https://github.com/heinu123/whitelist.git /usr/whitelist/temp
+    for file in /usr/whitelist/temp/*
+    do
+        mv -f ${file} /usr/whitelist/
+    done
+    rm -rf /usr/whitelist/temp
+    pip3 install -r requirements.txt
+    clear
+    green "更新完成，已重新启动"
+    green "如果报错请删除配置文件: /usr/whitelist/config.json"
+    restart
+}
+
 menu(){
     echo "#############################################################"
     echo -e "#                ${RED}代理白名单认证系统  一键脚本${PLAIN}               #"
     echo -e "# ${GREEN}作者${PLAIN}: heinu123                                            #"
-    echo -e "# ${GREEN}GitHub 项目${PLAIN}: https://github.com/heinu123                  #"
+    echo -e "# ${GREEN}GitHub 项目${PLAIN}: https://github.com/heinu123/whitelist            #"
     echo "#############################################################"
     echo ""
     echo -e " ${GREEN}1.${PLAIN} 安装 代理白名单认证系统"
-    echo -e " ${GREEN}2.${PLAIN} ${RED}卸载 代理白名单认证系统${PLAIN}"
+    echo -e " ${GREEN}2.${PLAIN} 更新 代理白名单认证系统"
+    echo -e " ${GREEN}3.${PLAIN} ${RED}卸载 代理白名单认证系统${PLAIN}"
     echo " -------------"
-    echo -e " ${GREEN}3.${PLAIN} 启动 代理白名单认证系统"
-    echo -e " ${GREEN}4.${PLAIN} 关闭 代理白名单认证系统"
-    echo -e " ${GREEN}5.${PLAIN} 重启 代理白名单认证系统"
+    echo -e " ${GREEN}4.${PLAIN} 启动 代理白名单认证系统"
+    echo -e " ${GREEN}5.${PLAIN} 关闭 代理白名单认证系统"
+    echo -e " ${GREEN}6.${PLAIN} 重启 代理白名单认证系统"
     echo " -------------"
     echo -e " ${GREEN}0.${PLAIN} 退出脚本"
     echo ""
-    read -rp "请输入选项 [0-5]: " menuInput
+    read -rp "请输入选项 [0-6]: " menuInput
     case $menuInput in
         1 ) install ;;
-        2 ) uninstall ;;
-        3 ) start ;;
-        4 ) stop ;;
-        5 ) restart ;;
+        2 ) updates ;;
+        3 ) uninstall ;;
+        4 ) start ;;
+        5 ) stop ;;
+        6 ) restart ;;
         * ) exit 1 ;;
     esac
 }
