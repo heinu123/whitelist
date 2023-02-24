@@ -24,24 +24,15 @@ def if_ip4or6(cfgstr):
 
 def anti_abuse():
     os.system('iptables -A OUTPUT -m string --string "fast.com" --algo bm -j DROP')
-    os.system(
-        'iptables -A OUTPUT -m string --string "speedtest.net" --algo bm -j DROP')
-    os.system(
-        'iptables -A OUTPUT -m string --string "speedtest.com" --algo bm -j DROP')
-    os.system(
-        'iptables -A OUTPUT -m string --string "speedtest.cn" --algo bm -j DROP')
-    os.system(
-        'iptables -A OUTPUT -m string --string "test.ustc.edu.cn" --algo bm -j DROP')
-    os.system(
-        'iptables -A OUTPUT -m string --string "10000.gd.cn" --algo bm -j DROP')
-    os.system(
-        'iptables -A OUTPUT -m string --string "db.laomoe.com" --algo bm -j DROP')
-    os.system(
-        'iptables -A OUTPUT -m string --string "jiyou.cloud" --algo bm -j DROP')
-    os.system(
-        'iptables -A OUTPUT -m string --string "ovo.speedtestcustom.com" --algo bm -j DROP')
-    os.system(
-        'iptables -A OUTPUT -m string --string "speed.cloudflare.com" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speedtest.net" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speedtest.com" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speedtest.cn" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "test.ustc.edu.cn" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "10000.gd.cn" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "db.laomoe.com" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "jiyou.cloud" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "ovo.speedtestcustom.com" --algo bm -j DROP')
+    os.system('iptables -A OUTPUT -m string --string "speed.cloudflare.com" --algo bm -j DROP')
     os.system('iptables -A OUTPUT -m string --string "speedtest" --algo bm -j DROP')
     os.system('iptables -A OUTPUT -m string --string "speedtest" --algo bm -j DROP')
     os.system('iptables -A OUTPUT -m string --string ".speed" --algo bm -j DROP')
@@ -85,10 +76,6 @@ def init():
     os.system("iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP")
     os.system("iptables -A INPUT -p tcp --tcp-flags SYN,RST SYN,RST -j DROP")
     os.system("iptables -A INPUT -p tcp --tcp-flags SYN,FIN SYN,FIN -j DROP")
-    os.system("ip6tables -A INPUT -p tcp --tcp-flags ALL FIN,URG,PSH -j DROP")
-    os.system("ip6tables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP")
-    os.system("ip6tables -A INPUT -p tcp --tcp-flags SYN,RST SYN,RST -j DROP")
-    os.system("ip6tables -A INPUT -p tcp --tcp-flags SYN,FIN SYN,FIN -j DROP")
     for sub_port in gol.get_value('port'):
         os.system("iptables -I INPUT -p TCP --dport " + str(sub_port) + " -j DROP")
         os.system("iptables -I INPUT -p UDP --dport " + str(sub_port) + " -j DROP")
