@@ -33,13 +33,28 @@ done
 
 update(){
     echo "Checking Update ..."
-    sleep 2
     if [[ ! $SYSTEM == "CentOS" ]]; then
         ${PACKAGE_UPDATE[int]}
     fi
+    ${PACKAGE_INSTALL[int]} update
     echo "Install dependencies ..."
-    sleep 2
-    ${PACKAGE_INSTALL[int]} git python3-pip wget curl sudo iptables
+    echo -e " ${GREEN}1.${PLAIN} 从apt/yum源安装Python(默认)"
+    echo -e " ${RED}2.${PLAIN} 从源码编译安装Python"
+    case $menuInput in
+        1 )
+            ${PACKAGE_INSTALL[int]} git wget curl sudo iptables build-essential zlib1g-dev libncurses5-dev \
+            libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev \
+            libreadline-dev libffi-dev libbz2-dev -y
+            curl -O https://www.python.org/ftp/python/3.11.0/Python-3.11.0rc2.tar.xz
+            tar -xf ./Python-3.11.0rc2.tar.xz
+            ./Python-3.11.0rc2/configure --enable-optimizations
+            make -j ${nproc}
+            make install
+        ;;
+        * )
+            ${PACKAGE_INSTALL[int]} git python3-pip wget curl sudo iptables -y
+        ;;
+    esac
 }
 
 install(){
@@ -47,6 +62,8 @@ install(){
     git clone https://github.com/heinu123/whitelist.git /usr/whitelist
     cd /usr/whitelist
     pip3 install -r requirements.txt
+    ln -sf ${0} /usr/bin/whitelist
+    chmod +x /usr/bin/whitelist
     clear
     echo -e "执行初始化配置，请在设置完后${RED}手动使用Ctrl+C打断Python执行${PLAIN}"
     python3 main.py
@@ -109,6 +126,7 @@ menu(){
     echo -e "#                ${RED}代理白名单认证系统  一键脚本${PLAIN}               #"
     echo -e "# ${GREEN}作者${PLAIN}: heinu123                                            #"
     echo -e "# ${GREEN}GitHub 项目${PLAIN}: https://github.com/heinu123/whitelist            #"
+    echo -e "# 安装后可用使用∶ ${GREEN} whitelist ${PLAIN}命令再次进入带这个页面            #"
     echo "#############################################################"
     echo ""
     echo -e " ${GREEN}1.${PLAIN} 安装 代理白名单认证系统"
