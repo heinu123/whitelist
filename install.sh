@@ -38,23 +38,7 @@ update(){
     fi
     ${PACKAGE_INSTALL[int]} update
     echo "Install dependencies ..."
-    echo -e " ${GREEN}1.${PLAIN} 从apt/yum源安装Python(默认)"
-    echo -e " ${RED}2.${PLAIN} 从源码编译安装Python"
-    case $menuInput in
-        1 )
-            ${PACKAGE_INSTALL[int]} git wget curl sudo iptables build-essential zlib1g-dev libncurses5-dev \
-            libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev \
-            libreadline-dev libffi-dev libbz2-dev -y
-            curl -O https://www.python.org/ftp/python/3.11.0/Python-3.11.0rc2.tar.xz
-            tar -xf ./Python-3.11.0rc2.tar.xz
-            ./Python-3.11.0rc2/configure --enable-optimizations
-            make -j ${nproc}
-            make install
-        ;;
-        * )
-            ${PACKAGE_INSTALL[int]} git python3-pip wget curl sudo iptables -y
-        ;;
-    esac
+    ${PACKAGE_INSTALL[int]} git python3-pip wget curl sudo iptables -y
 }
 
 install(){
