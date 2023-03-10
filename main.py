@@ -18,7 +18,7 @@ global port, web_port, url_path, username, password, AUTH_KEY, auto, url,recaptc
 def main():
     gol._init()
     if os.path.exists("config.json"):
-        with open('config.json', 'r') as f:
+        with open('config.json', 'r', encoding='utf-8') as f:
             configs = json.load(f)
         port = configs['port']
         web_port = configs['web_port']
