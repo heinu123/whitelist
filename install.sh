@@ -52,7 +52,7 @@ install(){
     echo -e "执行初始化配置，请在设置完后${RED}手动使用Ctrl+C打断Python执行${PLAIN}"
     python3 main.py
     yellow "正在设置systemctl后台守护"
-    cp -f whitelist.service /etc/systemd/system/whitelist.service
+    cp -Rf /usr/whitelist/whitelist.service /etc/systemd/system/whitelist.service
     systemctl start whitelist.service
     systemctl enable whitelist.service
     echo -e "配置完成，如果要修改配置文件请到${GREEN} /usr/whitelist/config.json ${PLAIN}修改配置 ${YELLOW}(自动配置开发ing)${PLAIN}"
