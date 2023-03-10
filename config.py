@@ -67,7 +67,7 @@ def retconfig(port, web_port, url_path, username, password, anti_abuse, anti_bt,
         'recaptcha_web_key': recaptcha_web_key,
         'recaptcha_key': recaptcha_key
     }
-    with open('config.json', 'w') as f:
+    with open('config.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4)
     print("你的配置已经存储到当前目录的config.json文件内")
     main()
