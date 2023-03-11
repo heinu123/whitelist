@@ -36,7 +36,6 @@ update(){
     if [[ ! $SYSTEM == "CentOS" ]]; then
         ${PACKAGE_UPDATE[int]}
     fi
-    ${PACKAGE_INSTALL[int]} update
     echo "Install dependencies ..."
     ${PACKAGE_INSTALL[int]} git python3-pip wget curl sudo iptables -y
 }
