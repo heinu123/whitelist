@@ -37,12 +37,13 @@ update(){
         ${PACKAGE_UPDATE[int]}
     fi
     echo "Install dependencies ..."
-    ${PACKAGE_INSTALL[int]} git python3-pip wget curl sudo iptables -y
+    ${PACKAGE_INSTALL[int]} git python3 python3-pip wget curl sudo iptables -y
     yellow "请选择需要使用的 Python 版本："
     echo -e " ${GREEN}1.${PLAIN} 使用系统自带的 $(python3 -V) ${YELLOW}(默认)${PLAIN}"
     echo -e " ${GREEN}2.${PLAIN} 编译安装最新版本的 Python 3.11.2"
     read -p "请选择操作 [1-2]：" pythonChoice
     if [[ $pythonChoice == 2 ]]; then
+        green "将编译最新版本的 Python 3.11.2" 
         if [[ $SYSTEM == "CentOS" ]]; then
             yum groupinstall -y "Development Tools"
             ${PACKAGE_INSTALL[int]} openssl-devel bzip2-devel libffi-devel
