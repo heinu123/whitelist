@@ -132,7 +132,7 @@ class BasicAuthHandler(http.server.SimpleHTTPRequestHandler):
                 html = open("./html/recaptcha.html", "r", encoding='utf-8')
                 html_body = html.read()
                 if gol.get_value('recaptcha') == "true":
-                    self.wfile.write(b""+html_body.replace("{captcha}","<div class=\"g-recaptcha\" data-sitekey=\""+gol.get_value('recaptcha_web_key')+"\"></div>").encode("utf-8"))
+                    self.wfile.write(b""+html_body.replace("{captcha}","    <script src=\" https:\/\/www.recaptcha.net\/recaptcha\/api.js\" async defer><\/script>\n<div class=\"g-recaptcha\" data-sitekey=\""+gol.get_value('recaptcha_web_key')+"\"></div>").encode("utf-8"))
                 else:
                     self.wfile.write(b""+html_body.replace("{captcha}","").encode("utf-8"))
 
