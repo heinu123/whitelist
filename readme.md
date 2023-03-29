@@ -21,7 +21,7 @@
 使用root权限 (sudo -i) 执行
 
 ```
- bash <(curl -Ls https://raw.githubusercontent.com/heinu123/whitelist/master/install.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/heinu123/whitelist/master/install.sh)
 ```
 
 ## 手动安装
@@ -80,13 +80,13 @@ iptables -F
 
 
 
-[黑弩](https://github.com/heinu123)  →[telegram频道](https://t.me/heinuhome)
+[黑弩](https://github.com/heinu123)  → [telegram频道](https://t.me/heinuhome)
 
-[Aries](https://github.com/AriesEDGE)  →[telegram频道](https://t.me/aries_init)
+[Aries](https://github.com/AriesEDGE)  → [telegram频道](https://t.me/aries_init)
 
-[UniOreoX](https://github.com/unioreox)  →[telegram频道](https://t.me/unichannelx)
+[UniOreoX](https://github.com/unioreox)  → [telegram频道](https://t.me/unichannelx)
 
-
+[MisakaNo の 小破站](https://www.misaka.rest)  → [telegram群组](https://t.me/misakanoc)
 
 觉得项目不错不妨给我点个小小的Star (ฅ'ω'ฅ).
 
