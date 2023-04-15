@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export LANG=en_US.UTF-8
+
+
 RED="\033[31m"
 GREEN="\033[32m"
 YELLOW="\033[33m"
@@ -164,7 +167,6 @@ menu(){
     echo -e "#                ${RED}代理白名单认证系统  一键脚本${PLAIN}               #"
     echo -e "# ${GREEN}作者${PLAIN}: heinu123                                            #"
     echo -e "# ${GREEN}GitHub 项目${PLAIN}: https://github.com/heinu123/whitelist        #"
-    echo -e "# 安装后可用使用∶ ${GREEN} whitelist ${PLAIN}命令再次进入带这个页面         #"
     echo "#############################################################"
     echo ""
     echo -e " ${GREEN}1.${PLAIN} 安装 代理白名单认证系统"
