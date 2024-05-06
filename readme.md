@@ -86,8 +86,6 @@ iptables -F
 
 [UniOreoX](https://github.com/unioreox)  → [telegram频道](https://t.me/unichannelx)
 
-[MisakaNo の 小破站](https://www.misaka.rest)  → [telegram群组](https://t.me/misakanoc)
-
 觉得项目不错不妨给我点个小小的Star (ฅ'ω'ฅ).
 
 感谢大家！
